@@ -1,0 +1,34 @@
+			MODEL ENGINE
+
+LIST OF JARs
+
+The entire Model Engine API contains those jars :
+ * GraphicEngineCore.jar
+ * GraphicEngineCore-datas.jar 
+ * ModelEngineCore.jar
+ * ModelReader.jar
+ * ModelWorldRenderer.jar
+ * ModelShader.jar
+ * ModelWriter.jar
+ * WorldEngineCore.jar
+ * ModelWorldXml.jar
+
+OPTIONALS JARs
+
+Some jar are optional, depending on your needs :
+ - GraphicEngineCore-datas: Contains some datas (fonts, textures) that you probably not use at all.
+ - ModelReader: Ony if you use the package org.jouvieje.model.reader (the UnifiedReader class
+ - ModelWriter: Ony if you use the package org.jouvieje.model.writer
+ - ModelWorldRenderer.jar: Ony if you use the package org.jouvieje.model.renderer
+ - ModelWhader.jar: Only if you use the package org.jouvieje.shader.glsl.generator
+ - WorldEngineCore: Ony if you use the package org.jouvieje.world
+ - ModelWorldXml: Ony if you use the package org.jouvieje.model.xml or .world.xml
+
+TYPICAL CONFIGURATION
+
+The typical use of the API is to load and render 3d models, the typical configuration is :
+ * GraphicEngineCore.jar
+ * ModelEngineCore.jar
+ * ModelReader.jar
+ * ModelRenderer.jar
+(smaller than the full engine)

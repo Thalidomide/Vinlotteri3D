@@ -1,0 +1,4 @@
+com.amd.ati package is Copyright ATI Technologies Incorporated
+This package contains a java port of ATI's NormalMapGenerator and DUDVMapGenerator
+utilities located at http://ati.amd.com/developer/sdk/radeonsdk/html/tools/toolsplugins.html
+Java port of these utilities was made by Jérôme JOUVIE.
