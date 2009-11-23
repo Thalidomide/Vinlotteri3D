@@ -1,36 +1,38 @@
 package no.olj.joglLottery.gui;
 
-import no.olj.joglLottery.primitives.Point3D;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.media.opengl.GL;
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCanvas;
+import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLEventListener;
+import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
+import org.jouvieje.model.Model;
+import org.jouvieje.model.material.ModelTextureList;
+import org.jouvieje.model.reader.ModelReaderSettings;
+import org.jouvieje.model.reader.obj.OBJReader;
+import org.jouvieje.model.renderer.IModelRenderer;
+import org.jouvieje.model.renderer.pipeline.DirectModeRenderer;
+import org.jouvieje.model.renderer.pipeline.VertexArrayRenderer;
+import org.jouvieje.model.ressources.MediaManager;
+import org.jouvieje.renderer.jsr231.GLRenderer_jsr231;
+import org.jouvieje.texture.TextureLoader;
+import org.jouvieje.visibility.IBoundingVolume;
+import org.jouvieje.world.ModelInstance;
+
+import com.sun.opengl.util.FPSAnimator;
+
+import no.olj.joglLottery.lottery.Participant;
 import no.olj.joglLottery.primitives.LotteryColor;
+import no.olj.joglLottery.primitives.Point3D;
 import no.olj.joglLottery.primitives.Rotation;
 import no.olj.joglLottery.primitives.drawable.Drawable;
 import no.olj.joglLottery.primitives.drawable.DrawableLotteryTickets;
 import no.olj.joglLottery.primitives.drawable.DrawableSphere;
 import no.olj.joglLottery.util.Util;
-import no.olj.joglLottery.lottery.Participant;
-
-import javax.media.opengl.GLEventListener;
-import javax.media.opengl.GLCanvas;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GL;
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUquadric;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.IOException;
-
-import com.sun.opengl.util.FPSAnimator;
-import org.jouvieje.renderer.jsr231.GLRenderer_jsr231;
-import org.jouvieje.model.Model;
-import org.jouvieje.model.material.ModelTextureList;
-import org.jouvieje.model.light.Lighting;
-import org.jouvieje.model.renderer.pipeline.DirectModeRenderer;
-import org.jouvieje.model.reader.obj.OBJReader;
-import org.jouvieje.model.reader.ModelReaderSettings;
-import org.jouvieje.model.ressources.MediaManager;
-import org.jouvieje.visibility.IBoundingVolume;
-import org.jouvieje.texture.TextureLoader;
 
 /**
  * <h1></h1>
@@ -63,9 +65,9 @@ public class LotteryPainter implements GLEventListener {
     private double cameraAnimation = 0;                      // brukes ved animering av kameraposisjon
     private int millisBeforeFadeDown;
     private final static double initialSpinSpeed = 4;        // hastigheten under trekning
-    private final int maxRoundsBeforeStop = 0;               // maks antall runder f�r man setter ned hastigheten
-    private final static int baseMillisBeforeFadeDown = 2000;// antall millis f�r man setter ned hastigeten
-    private final static double fadeDownVar = 0.5;           // variasjon p� tid f�r man setter ned hastigheten
+    private final int maxRoundsBeforeStop = 0;               // maks antall runder før man setter ned hastigheten
+    private final static int baseMillisBeforeFadeDown = 2000;// antall millis før man setter ned hastigeten
+    private final static double fadeDownVar = 0.5;           // variasjon på tid før man setter ned hastigheten
     private final static double spinStopSpeed = 0.3;         // hastigheten man setter ned til
     private final static double spinStopFadeDown = 0.02;     // verdien farten minker med
     private final static long spinFadeTimer = 50;            // millis mellom hver gang farten minkes
@@ -76,12 +78,13 @@ public class LotteryPainter implements GLEventListener {
     private FPSAnimator animator;
     private Model modelStaticObjects;
     private Model modelRotatingObjects;
-    private String modelsPath = "resources\\";
+    private String modelsPath = "resources/";
     private String rotatingObjectsFileName = "rotatingObjects.obj";
     private String staticObjectsFileName = "staticObjects.obj";
     private GLRenderer_jsr231 gl_Renderer;
+	private IModelRenderer modelRenderer;
 
-    public LotteryPainter(LotteryCanvasListener listener, List<Participant> participants) {
+	public LotteryPainter(LotteryCanvasListener listener, List<Participant> participants) {
         this.listener = listener;
         this.participants = participants;
 
@@ -99,7 +102,8 @@ public class LotteryPainter implements GLEventListener {
         loadingFrame = new LoadingFrame("Laster 3d-objekter...");
     }
 
-    public void init(GLAutoDrawable glAutoDrawable) {
+    @Override
+	public void init(GLAutoDrawable glAutoDrawable) {
         GL gl = glAutoDrawable.getGL();
 
         gl.glClearColor(0.2f, 0.4f, 1, 0);
@@ -122,11 +126,10 @@ public class LotteryPainter implements GLEventListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
-    public void display(GLAutoDrawable glAutoDrawable) {
+    @Override
+	public void display(GLAutoDrawable glAutoDrawable) {
         checkSpinAndNotifyListenerIfFoundWinner();
         setRotationOnLotteryBoard();
 
@@ -188,7 +191,7 @@ public class LotteryPainter implements GLEventListener {
         startSpinSpeedController();
     }
 
-    public void updateGui() {
+    public void initializeGui() {
         animator.stop();
         drawableObjects.clear();
         drawableRotatingObects.clear();
@@ -242,18 +245,17 @@ public class LotteryPainter implements GLEventListener {
         //Update the render with the current glAutoDrawable object
         gl_Renderer.update(glAutoDrawable);
         modelStaticObjects.medias.textures.loadTextures(modelStaticObjects);
-//        modelStaticObjects.renderer.render();
+		modelRenderer.render(modelStaticObjects);
 
-        Util.rotate(gl, new Rotation(currentAngle, 0, 0, 1));
-        modelStaticObjects.medias.textures.loadTextures(modelRotatingObjects);
-//        modelRotatingObjects.renderer.render();
-    }
+		Util.rotate(gl, new Rotation(currentAngle, 0, 0, 1));
+		modelRotatingObjects.medias.textures.loadTextures(modelRotatingObjects);
+		modelRenderer.render(modelRotatingObjects);
+	}
 
     private void setupLights(GL gl) {
 //        gl.glLightModeli(GL.GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 
         float light_ambient0[] = {0.3f, 0.3f, 0.35f, 1.0f};
-//        float light_diffuse0[] = {1.5f, 1.5f, 1.3f, 1.0f};
         float light_diffuse0[] = {1.0f, 1.0f, 0.9f, 1.0f};
         float light_specular0[] = {2f, 2f, 2f, 1.0f};
         float light_position0[] = new float[]{0.9f, 0.6f, 1.5f, 1.0f};
@@ -305,7 +307,8 @@ public class LotteryPainter implements GLEventListener {
 
     private void startSpinSpeedController() {
         Thread fadeDownThread = new Thread() {
-            public void run() {
+            @Override
+			public void run() {
                 try {
                     sleep(millisBeforeFadeDown);
 
@@ -336,43 +339,44 @@ public class LotteryPainter implements GLEventListener {
         }
     }
 
-    /* -------------------- START Metoder for � lage 3d-objektene -------------------- */
+    /* -------------------- START Metoder for å lage 3d-objektene -------------------- */
 
     private void loadModels() throws IOException {
-        modelStaticObjects = new Model(new MediaManager());
-        modelRotatingObjects = new Model(new MediaManager());
+//		int mode = IBoundingVolume.BOUNDINGVOLUME_INSIDE;
+		modelRenderer = new DirectModeRenderer(gl_Renderer, 2, true);
 
-        ModelReaderSettings settingsRotatingObjects = new ModelReaderSettings();
-        ModelReaderSettings settingsStaticObjects = new ModelReaderSettings();
-
-        settingsStaticObjects.modelFolder = modelsPath;
-        settingsStaticObjects.modelName = staticObjectsFileName;
-//        settingsStaticObjects.lighting = Lighting.LightingMode.PER_PIXEL;
-
-        settingsRotatingObjects.modelFolder = modelsPath;
-        settingsRotatingObjects.modelName = rotatingObjectsFileName;
-//        settingsRotatingObjects.lighting = Lighting.LightingMode.PER_PIXEL;
-
-        OBJReader objReader = new OBJReader();
-        objReader.read(modelStaticObjects, settingsStaticObjects);
-        objReader.read(modelRotatingObjects, settingsRotatingObjects);
-
-//        int mode = IBoundingVolume.BOUNDINGVOLUME_INSIDE;
-        modelStaticObjects.medias.textures = new ModelTextureList(new TextureLoader(gl_Renderer));
-//        modelStaticObjects.renderer = new DirectModeRenderer (gl_Renderer, modelStaticObjects, mode);
-        modelStaticObjects.setUseLight(true);
-
-        modelRotatingObjects.medias.textures = new ModelTextureList(new TextureLoader(gl_Renderer));
-//        modelRotatingObjects.renderer = new DirectModeRenderer (gl_Renderer, modelRotatingObjects, mode);
-        modelRotatingObjects.setUseLight(true);
+		modelStaticObjects = loadModel(staticObjectsFileName);
+		modelRotatingObjects = loadModel(rotatingObjectsFileName);
 
         loadingFrame.setVisible(false);
         loadingFrame = null;
     }
 
-    private void create3DObjects() {
+	private Model loadModel(String fileName) throws IOException {
+		Model model = new Model(new MediaManager());
+
+		ModelReaderSettings settings = new ModelReaderSettings();
+		settings.modelFolder = modelsPath;
+		settings.modelName = fileName;
+//        settings.lighting = Lighting.LightingMode.PER_PIXEL;
+
+		OBJReader objReader = new OBJReader();
+		objReader.read(model, settings);
+
+		model.medias.textures = new ModelTextureList(new TextureLoader(gl_Renderer));
+//        model.renderer = new DirectModeRenderer (gl_Renderer, modelStaticObjects, mode);
+//        model.setUseLight(true);
+
+		ModelInstance instance = new ModelInstance(fileName, model);
+
+		instance.renderer = modelRenderer;
+		
+		return model;
+	}
+
+	private void create3DObjects() {
         createDrawableTickets();
-//        createSphereAtLightPosition();
+        createSphereAtLightPosition();
     }
 
     private void createDrawableTickets() {
@@ -392,9 +396,11 @@ public class LotteryPainter implements GLEventListener {
         drawableObjects.add(sphere);
     }
 
-    /* -------------------- SLUTT Metoder for � lage 3d-objektene -------------------- */
+    /* -------------------- SLUTT Metoder for å lage 3d-objektene -------------------- */
 
-    public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {/**/}
+    @Override
+	public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {/**/}
 
-    public void displayChanged(GLAutoDrawable glAutoDrawable, boolean b, boolean b1) {/**/}
+    @Override
+	public void displayChanged(GLAutoDrawable glAutoDrawable, boolean b, boolean b1) {/**/}
 }

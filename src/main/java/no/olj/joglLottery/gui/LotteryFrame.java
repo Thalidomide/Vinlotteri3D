@@ -89,15 +89,16 @@ public class LotteryFrame extends JFrame {
         startButton.setEnabled(false);
 
         this.winner = listener.getNextWinner();
-        canvas.updateGui();
+        canvas.initializeGui();
         updateParticipantColors();
         setInfoText("Klart for ny trekning!");
         Thread startThread = new Thread() {
-            public void run() {
+            @Override
+			public void run() {
                 try {
                     sleep(1000);
                     canvas.startLottery(LotteryFrame.this.winner);
-                    setInfoText("Trekning pågår..");
+                    setInfoText("Trekning pÃ¥gÃ¥r..");
                 } catch (InterruptedException e) {/**/}
             }
         };
@@ -210,7 +211,7 @@ public class LotteryFrame extends JFrame {
                 , "YEAH!"
                 , ":-D"
                 , "Grattis!"
-                , "Værsågod - finn deg en flaske."
+                , "Vï¿½rsï¿½god - finn deg en flaske."
         };
         int rand = (int) (Math.random() * randomCheer.length);
         return randomCheer[rand];
@@ -219,7 +220,8 @@ public class LotteryFrame extends JFrame {
 
     private LotteryCanvasListener getLotteryCanvasListener() {
         return new LotteryCanvasListener() {
-            public void stoppedOnLotteryWinner() {
+            @Override
+			public void stoppedOnLotteryWinner() {
                 lotteryStoppedOnWinner();
             }
         };
@@ -227,16 +229,21 @@ public class LotteryFrame extends JFrame {
 
     private MouseListener getStartButtonListener() {
         return new MouseListener() {
-            public void mouseReleased(MouseEvent e) {
+            @Override
+			public void mouseReleased(MouseEvent e) {
                 if (startButton.isEnabled()) {
                     startLottery();
                 }
             }
 
-            public void mouseClicked(MouseEvent e) {}
-            public void mousePressed(MouseEvent e) {}
-            public void mouseEntered(MouseEvent e) {}
-            public void mouseExited(MouseEvent e) {}
+            @Override
+			public void mouseClicked(MouseEvent e) {}
+            @Override
+			public void mousePressed(MouseEvent e) {}
+            @Override
+			public void mouseEntered(MouseEvent e) {}
+            @Override
+			public void mouseExited(MouseEvent e) {}
         };
     }
 }
