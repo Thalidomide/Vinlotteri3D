@@ -29,7 +29,8 @@ public class DrawableArc extends AbstractDrawable {
     }
 
     protected void doDraw(GL gl) {
-        Util.setGlColor(gl, color);
+		color.updateColor();
+		Util.setGlColor(gl, color);
         for (Point3D point : pointPositions) {
             gl.glNormal3d(point.getX()/10, point.getY()/10, 1.2);
             gl.glVertex3d(point.getX(), point.getY(), point.getZ());

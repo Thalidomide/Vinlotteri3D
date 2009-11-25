@@ -11,14 +11,15 @@ import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 import org.jouvieje.model.Model;
+import org.jouvieje.model.light.Lighting;
 import org.jouvieje.model.material.ModelTextureList;
 import org.jouvieje.model.reader.ModelReaderSettings;
 import org.jouvieje.model.reader.obj.OBJReader;
 import org.jouvieje.model.renderer.IModelRenderer;
 import org.jouvieje.model.renderer.pipeline.DirectModeRenderer;
-import org.jouvieje.model.renderer.pipeline.VertexArrayRenderer;
 import org.jouvieje.model.ressources.MediaManager;
 import org.jouvieje.renderer.jsr231.GLRenderer_jsr231;
+import org.jouvieje.shader.IShaderGenerator;
 import org.jouvieje.texture.TextureLoader;
 import org.jouvieje.visibility.IBoundingVolume;
 import org.jouvieje.world.ModelInstance;
@@ -114,8 +115,8 @@ public class LotteryPainter implements GLEventListener {
 
         setupLights(gl);
 
-//        gl.glEnable(GL.GL_COLOR_MATERIAL);
-//        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glEnable(GL.GL_COLOR_MATERIAL);
+        gl.glShadeModel(GL.GL_SMOOTH);
         gl.glDepthFunc(GL.GL_LEQUAL);    // The Type Of Depth Testing
         gl.glEnable(GL.GL_DEPTH_TEST);    // Enable Depth Testing
 
@@ -229,22 +230,21 @@ public class LotteryPainter implements GLEventListener {
         /* viewing and modeling transformation */
         gl.glMatrixMode(GL.GL_MODELVIEW);
         gl.glLoadIdentity();
-//        glu.gluLookAt(0.1, 0, 3, // eye
         glu.gluLookAt(cameraX, cameraY, cameraZ, // eye
                 0, -0.1, 0,       // center
                 0, 1, 0);      // up
     }
 
-    private void drawDrawableObjects(GL gl) {
-        for (Drawable drawable : drawableObjects) {
-            drawable.draw(gl);
-        }
-    }
+	private void drawDrawableObjects(GL gl) {
+		for (Drawable drawable : drawableObjects) {
+			drawable.draw(gl);
+		}
+	}
 
-    private void drawModels(GLAutoDrawable glAutoDrawable, GL gl) {
-        //Update the render with the current glAutoDrawable object
-        gl_Renderer.update(glAutoDrawable);
-        modelStaticObjects.medias.textures.loadTextures(modelStaticObjects);
+	private void drawModels(GLAutoDrawable glAutoDrawable, GL gl) {
+		//Update the render with the current glAutoDrawable object
+		gl_Renderer.update(glAutoDrawable);
+		modelStaticObjects.medias.textures.loadTextures(modelStaticObjects);
 		modelRenderer.render(modelStaticObjects);
 
 		Util.rotate(gl, new Rotation(currentAngle, 0, 0, 1));
@@ -252,8 +252,8 @@ public class LotteryPainter implements GLEventListener {
 		modelRenderer.render(modelRotatingObjects);
 	}
 
-    private void setupLights(GL gl) {
-//        gl.glLightModeli(GL.GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+	private void setupLights(GL gl) {
+        gl.glLightModeli(GL.GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 
         float light_ambient0[] = {0.3f, 0.3f, 0.35f, 1.0f};
         float light_diffuse0[] = {1.0f, 1.0f, 0.9f, 1.0f};
@@ -280,7 +280,7 @@ public class LotteryPainter implements GLEventListener {
         gl.glEnable(GL.GL_LIGHT1);
     }
 
-    private void addToRotatableLottery(Drawable drawable) {
+	private void addToRotatableLottery(Drawable drawable) {
         drawable.setRotation(new Rotation(0, 0, 0, 1));
         drawableRotatingObects.add(drawable);
     }
@@ -343,7 +343,8 @@ public class LotteryPainter implements GLEventListener {
 
     private void loadModels() throws IOException {
 //		int mode = IBoundingVolume.BOUNDINGVOLUME_INSIDE;
-		modelRenderer = new DirectModeRenderer(gl_Renderer, 2, true);
+		int mode = IBoundingVolume.BoundingVolumeOptions.BoundingVolume_Box;
+		modelRenderer = new DirectModeRenderer(gl_Renderer, mode, true);
 
 		modelStaticObjects = loadModel(staticObjectsFileName);
 		modelRotatingObjects = loadModel(rotatingObjectsFileName);
@@ -358,13 +359,14 @@ public class LotteryPainter implements GLEventListener {
 		ModelReaderSettings settings = new ModelReaderSettings();
 		settings.modelFolder = modelsPath;
 		settings.modelName = fileName;
+		settings.postProcess.lighting = Lighting.LightingMode.PerPixel;
+		settings.postProcess.acurateLighting = true;
 //        settings.lighting = Lighting.LightingMode.PER_PIXEL;
 
 		OBJReader objReader = new OBJReader();
 		objReader.read(model, settings);
 
 		model.medias.textures = new ModelTextureList(new TextureLoader(gl_Renderer));
-//        model.renderer = new DirectModeRenderer (gl_Renderer, modelStaticObjects, mode);
 //        model.setUseLight(true);
 
 		ModelInstance instance = new ModelInstance(fileName, model);
