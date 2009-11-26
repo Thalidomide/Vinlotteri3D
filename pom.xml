@@ -7,5 +7,24 @@
     <groupId>Vinlotteri3D</groupId>
     <artifactId>Vinlotteri3D</artifactId>
     <version>1.0</version>
-    
+
+    <developers>
+        <developer>
+            <id>olj</id>
+            <name>Olav Jensen</name>
+            <organization>Know IT Objectnet</organization>
+            <organizationUrl>http://knowit.no</organizationUrl>
+            <email>olj@knowit.no</email>
+            <timezone>GMT+1</timezone>
+        </developer>
+    </developers>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.2</version>
+        </dependency>
+    </dependencies>
+
 </project>

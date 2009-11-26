@@ -23,12 +23,12 @@ public class DrawableArc extends AbstractDrawable {
         super(centre, color);
 
         setShininess(90);
-//        darkenColor(0.5);
 
         createPoints(startAngle, angle, radius);
     }
 
-    protected void doDraw(GL gl) {
+    @Override
+	protected void doDraw(GL gl) {
 		color.updateColor();
 		Util.setGlColor(gl, color);
         for (Point3D point : pointPositions) {
@@ -40,6 +40,7 @@ public class DrawableArc extends AbstractDrawable {
     private void createPoints(double startAngle, double angle, double radius) {
         pointPositions = new ArrayList<Point3D>();
 
+//		System.out.println("Startangle, angle: " + startAngle + ", " + angle);
         int inBetweens = (int)((angle / (float)createNewPointEveryNDegree) - 1);
 //        System.out.println("Antall punkter som skal lages: " + inBetweens);
 
@@ -57,16 +58,10 @@ public class DrawableArc extends AbstractDrawable {
         pointPositions.add(getPointPosition(position, startAngle + angle, radius));
     }
 
-    private void darkenColor(double colorFactor) {
-        color.setRed(color.getRed() * colorFactor);
-        color.setGreen(color.getGreen() * colorFactor);
-        color.setBlue(color.getBlue() * colorFactor);
-    }
-
     private Point3D getPointPosition(Point3D centre, double angle, double radius) {
 //        System.out.println("Lage nytt punkt i vinkelen: " + angle);
-        double x = centre.getX() + radius * Math.cos(Math.toRadians(angle));
-        double y = centre.getY() + radius * Math.sin(Math.toRadians(angle));
+        double x = centre.getX() + radius * Math.cos(Math.toRadians(-angle));
+        double y = centre.getY() + radius * Math.sin(Math.toRadians(-angle));
 
         return new Point3D(x, y, centre.getZ());
     }

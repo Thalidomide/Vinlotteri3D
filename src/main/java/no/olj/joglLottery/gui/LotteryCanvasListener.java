@@ -1,5 +1,7 @@
 package no.olj.joglLottery.gui;
 
+import no.olj.joglLottery.lottery.Participant;
+
 /**
  * <h1></h1>
  *
@@ -8,5 +10,5 @@ package no.olj.joglLottery.gui;
  */
 public interface LotteryCanvasListener {
 
-    void stoppedOnLotteryWinner();
+    void gotWinner(Participant winner);
 }

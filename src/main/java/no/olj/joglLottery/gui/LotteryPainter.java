@@ -19,13 +19,14 @@ import org.jouvieje.model.renderer.IModelRenderer;
 import org.jouvieje.model.renderer.pipeline.DirectModeRenderer;
 import org.jouvieje.model.ressources.MediaManager;
 import org.jouvieje.renderer.jsr231.GLRenderer_jsr231;
-import org.jouvieje.shader.IShaderGenerator;
 import org.jouvieje.texture.TextureLoader;
 import org.jouvieje.visibility.IBoundingVolume;
 import org.jouvieje.world.ModelInstance;
 
 import com.sun.opengl.util.FPSAnimator;
 
+import no.olj.joglLottery.lottery.DrawController;
+import no.olj.joglLottery.lottery.DrawControllerListener;
 import no.olj.joglLottery.lottery.Participant;
 import no.olj.joglLottery.primitives.LotteryColor;
 import no.olj.joglLottery.primitives.Point3D;
@@ -41,41 +42,25 @@ import no.olj.joglLottery.util.Util;
  * @author Olav Jensen
  * @since 14.okt.2008
  */
-public class LotteryPainter implements GLEventListener {
+public class LotteryPainter implements GLEventListener, DrawControllerListener {
 
-    private GLCanvas canvas;
+	private final LotteryCanvasListener listener;
 
-    private GLU glu = new GLU();
+	private final Point3D centre = new Point3D(0, 0, 0);
 
-    private double currentSpinSpeed = 0;
-    private double currentAngle = 0;
-    private final Point3D centre = new Point3D(0, 0, 0);
+	private List<Drawable> drawableObjects = new ArrayList<Drawable>();
+	private List<Drawable> drawableRotatingObects = new ArrayList<Drawable>();
 
-    private LotteryCanvasListener listener;
-    private List<Participant> participants;
+	private DrawableLotteryTickets drawableTickets;
+	private DrawController drawController;
+	private List<Participant> participants;
 
-    private List<Drawable> drawableObjects = new ArrayList<Drawable>();
-    private List<Drawable> drawableRotatingObects = new ArrayList<Drawable>();
+	private double cameraAnimation = 0;                      // brukes ved animering av kameraposisjon
+	private final double cameraAnimationSpeed = 0.002;       // hastigheten kameraanimasjonen
 
-    private int roundsBeforeStop;
-    private double winnerAngle;
-    private DrawableLotteryTickets drawableTickets;
-    private boolean stopAtWinnersAngle;
-
-    private boolean isDrawing;
-    private double cameraAnimation = 0;                      // brukes ved animering av kameraposisjon
-    private int millisBeforeFadeDown;
-    private final static double initialSpinSpeed = 4;        // hastigheten under trekning
-    private final int maxRoundsBeforeStop = 0;               // maks antall runder før man setter ned hastigheten
-    private final static int baseMillisBeforeFadeDown = 2000;// antall millis før man setter ned hastigeten
-    private final static double fadeDownVar = 0.5;           // variasjon på tid før man setter ned hastigheten
-    private final static double spinStopSpeed = 0.3;         // hastigheten man setter ned til
-    private final static double spinStopFadeDown = 0.02;     // verdien farten minker med
-    private final static long spinFadeTimer = 50;            // millis mellom hver gang farten minkes
-    private final double cameraAnimationSpeed = 0.002;       // hastigheten kameraanimasjonen
-//        private final double cameraAnimationSpeed = 0.03;
-
-    private LoadingFrame loadingFrame;
+	private GLCanvas canvas;
+	private GLU glu;
+	private LoadingFrame loadingFrame;
     private FPSAnimator animator;
     private Model modelStaticObjects;
     private Model modelRotatingObjects;
@@ -89,6 +74,10 @@ public class LotteryPainter implements GLEventListener {
         this.listener = listener;
         this.participants = participants;
 
+		drawController = new DrawController(this);
+
+		glu = new GLU();
+		
         GLCapabilities caps = new GLCapabilities();
         caps.setDoubleBuffered(true);
         caps.setHardwareAccelerated(true);
@@ -100,7 +89,7 @@ public class LotteryPainter implements GLEventListener {
         animator = new FPSAnimator(canvas, 50);
         animator.start();
 
-        loadingFrame = new LoadingFrame("Laster 3d-objekter...");
+        loadingFrame = new LoadingFrame("Laster...");
     }
 
     @Override
@@ -131,7 +120,7 @@ public class LotteryPainter implements GLEventListener {
 
     @Override
 	public void display(GLAutoDrawable glAutoDrawable) {
-        checkSpinAndNotifyListenerIfFoundWinner();
+		drawController.updateAngle();
         setRotationOnLotteryBoard();
 
         GL gl = glAutoDrawable.getGL();
@@ -141,12 +130,12 @@ public class LotteryPainter implements GLEventListener {
         drawModels(glAutoDrawable, gl);
 
         gl.glFlush();
-        currentAngle = Util.getTransformedAngle(currentAngle, currentSpinSpeed);
     }
 
     double testAngle = 0;
 
     public void displayX(GLAutoDrawable glAutoDrawable) {
+		drawController.updateAngle();
         GL gl = glAutoDrawable.getGL();
         GLU glu = new GLU();
         GLUquadric quadric = glu.gluNewQuadric();
@@ -174,22 +163,10 @@ public class LotteryPainter implements GLEventListener {
         gl.glEnd();
 
         gl.glFlush();
-
-        currentAngle = Util.getTransformedAngle(currentAngle, currentSpinSpeed);
     }
 
-    public void startLottery(Participant winner) {
-        if (isDrawing) {
-            return;
-        }
-        isDrawing = true;
-        stopAtWinnersAngle = false;
-        currentSpinSpeed = initialSpinSpeed;
-        roundsBeforeStop = (int) (Math.random() * (maxRoundsBeforeStop + 1));
-        millisBeforeFadeDown = (int) (baseMillisBeforeFadeDown * (1 - fadeDownVar / 2 + Math.random() * fadeDownVar));
-        winnerAngle = Util.getTransformedAngle(drawableTickets.getAngle(winner), 90);
-
-        startSpinSpeedController();
+    public void startLottery() {
+		drawController.start();
     }
 
     public void initializeGui() {
@@ -201,7 +178,7 @@ public class LotteryPainter implements GLEventListener {
     }
 
     public boolean isDrawing() {
-        return isDrawing;
+        return drawController.isDrawing();
     }
 
     public GLCanvas getCanvas() {
@@ -247,7 +224,7 @@ public class LotteryPainter implements GLEventListener {
 		modelStaticObjects.medias.textures.loadTextures(modelStaticObjects);
 		modelRenderer.render(modelStaticObjects);
 
-		Util.rotate(gl, new Rotation(currentAngle, 0, 0, 1));
+		Util.rotate(gl, new Rotation(drawController.getAngle(), 0, 0, 1));
 		modelRotatingObjects.medias.textures.loadTextures(modelRotatingObjects);
 		modelRenderer.render(modelRotatingObjects);
 	}
@@ -285,64 +262,22 @@ public class LotteryPainter implements GLEventListener {
         drawableRotatingObects.add(drawable);
     }
 
-    private void checkSpinAndNotifyListenerIfFoundWinner() {
-        if (!stopAtWinnersAngle || currentSpinSpeed == 0) {
-            return;
-        }
 
-        double nextAngle = Util.getTransformedAngle(currentAngle, currentSpinSpeed);
-//        System.out.println("Vinkelen er: " + currentAngle + ", neste vinkel : " + nextAngle+ ". Stoppe p�: " + winnerAngle);
-        boolean steppedOver = currentAngle <= winnerAngle && nextAngle >= winnerAngle;
-        boolean steppedOverAtBeginning = currentAngle > winnerAngle && nextAngle < currentAngle && nextAngle >= winnerAngle;
+	@Override
+	public void drawCompleted() {
+		Participant winner = drawableTickets.getWinnerAndAnimate(drawController.getAngle());
+		listener.gotWinner(winner);
+	}
 
-        if (steppedOver || steppedOverAtBeginning) {
-            if (roundsBeforeStop > 0) {
-                roundsBeforeStop--;
-            } else {
-                currentSpinSpeed = 0;
-                finishedDrawing();
-            }
-        }
-    }
-
-    private void startSpinSpeedController() {
-        Thread fadeDownThread = new Thread() {
-            @Override
-			public void run() {
-                try {
-                    sleep(millisBeforeFadeDown);
-
-                    while (currentSpinSpeed >= spinStopSpeed) {
-                        currentSpinSpeed -= spinStopFadeDown;
-                        if (currentSpinSpeed < spinStopFadeDown) {
-                            currentSpinSpeed = spinStopFadeDown;
-                        }
-
-                        sleep(spinFadeTimer);
-                    }
-                    stopAtWinnersAngle = true;
-
-                } catch (InterruptedException e) {/**/}
-            }
-        };
-        fadeDownThread.start();
-    }
-
-    private void finishedDrawing() {
-        listener.stoppedOnLotteryWinner();
-        isDrawing = false;
-    }
-
-    private void setRotationOnLotteryBoard() {
+	private void setRotationOnLotteryBoard() {
         for (Drawable drawable : drawableRotatingObects) {
-            drawable.setRotationAngle(currentAngle);
+            drawable.setRotationAngle(drawController.getAngle());
         }
     }
 
     /* -------------------- START Metoder for å lage 3d-objektene -------------------- */
 
     private void loadModels() throws IOException {
-//		int mode = IBoundingVolume.BOUNDINGVOLUME_INSIDE;
 		int mode = IBoundingVolume.BoundingVolumeOptions.BoundingVolume_Box;
 		modelRenderer = new DirectModeRenderer(gl_Renderer, mode, true);
 
@@ -361,7 +296,6 @@ public class LotteryPainter implements GLEventListener {
 		settings.modelName = fileName;
 		settings.postProcess.lighting = Lighting.LightingMode.PerPixel;
 		settings.postProcess.acurateLighting = true;
-//        settings.lighting = Lighting.LightingMode.PER_PIXEL;
 
 		OBJReader objReader = new OBJReader();
 		objReader.read(model, settings);
@@ -384,7 +318,7 @@ public class LotteryPainter implements GLEventListener {
     private void createDrawableTickets() {
         double radius = 1.0;
         Point3D position = new Point3D(centre.getX(), centre.getY(), 0.05);
-        drawableTickets = new DrawableLotteryTickets(participants, position, radius);
+        drawableTickets = new DrawableLotteryTickets(participants, position, radius, -90);
         drawableObjects.add(drawableTickets);
         addToRotatableLottery(drawableTickets);
     }

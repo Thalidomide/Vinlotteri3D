@@ -10,12 +10,12 @@ public class LotteryColor {
 
     private double red, green, blue;
 
-	private boolean runAnimation = true;
-	private boolean animating = true;
+	private boolean runAnimation;
+	private boolean animating;
 	private double animateMax = 1.5;
 	private double animateMin = 0.9;
 	private double animateStep = 0.015;
-	private double animatePointer;
+	private double animatePointer = 1;
 	private boolean animateUp;
 
 	public LotteryColor(double red, double green, double blue) {
@@ -105,5 +105,8 @@ public class LotteryColor {
 
 	public void setRunAnimation(boolean runAnimation) {
 		this.runAnimation = runAnimation;
+		if (runAnimation && !animating) {
+			animating = true;
+		}
 	}
 }

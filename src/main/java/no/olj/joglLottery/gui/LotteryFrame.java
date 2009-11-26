@@ -1,23 +1,23 @@
 package no.olj.joglLottery.gui;
 
-import no.olj.joglLottery.lottery.Participant;
-import no.olj.joglLottery.gui.LotteryPainter;
-import no.olj.joglLottery.gui.LotteryCanvasListener;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Color;
-import java.awt.event.MouseListener;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
-import java.util.List;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+
+import no.olj.joglLottery.lottery.Participant;
+import no.olj.joglLottery.util.Util;
 
 /**
  * <h1></h1>
@@ -38,7 +38,6 @@ public class LotteryFrame extends JFrame {
     private LotteryPainter canvas;
     private JPanel infoPanel;
     private List<Participant> participants;
-    private Participant winner;
     private JLabel statusLabel;
 
     private List<ParticipantLabel> participantLabels;
@@ -71,10 +70,13 @@ public class LotteryFrame extends JFrame {
 
     public LotteryFrame(LotteryFrameListener listener, List<Participant> participants, int numberOfPrizes) {
         this.listener = listener;
-        this.participants = participants;
+        this.participants = Util.randomizeList(participants);
         this.numberOfPrizes = numberOfPrizes;
 
-        setSize(1200, 700);
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+
+        setSize(toolkit.getScreenSize());
+		setExtendedState(getExtendedState()|JFrame.MAXIMIZED_BOTH);
         setLocation(0, 0);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("3D lottery");
@@ -88,7 +90,6 @@ public class LotteryFrame extends JFrame {
         }
         startButton.setEnabled(false);
 
-        this.winner = listener.getNextWinner();
         canvas.initializeGui();
         updateParticipantColors();
         setInfoText("Klart for ny trekning!");
@@ -97,7 +98,7 @@ public class LotteryFrame extends JFrame {
 			public void run() {
                 try {
                     sleep(1000);
-                    canvas.startLottery(LotteryFrame.this.winner);
+                    canvas.startLottery();
                     setInfoText("Trekning pågår..");
                 } catch (InterruptedException e) {/**/}
             }
@@ -139,7 +140,7 @@ public class LotteryFrame extends JFrame {
         getContentPane().add(mainPanel);
     }
 
-    private void lotteryStoppedOnWinner() {
+    private void lotteryStoppedOnWinner(Participant winner) {
         boolean wasLastTicket = ++numberOfPrizesWon >= numberOfPrizes;
         String infoText = "Vinneren er: " + winner.getName() + "! " + getRandomCheer();
         listener.stoppedOnWinner(winner);
@@ -211,7 +212,7 @@ public class LotteryFrame extends JFrame {
                 , "YEAH!"
                 , ":-D"
                 , "Grattis!"
-                , "V�rs�god - finn deg en flaske."
+                , "Værsågod - finn deg en flaske."
         };
         int rand = (int) (Math.random() * randomCheer.length);
         return randomCheer[rand];
@@ -221,10 +222,10 @@ public class LotteryFrame extends JFrame {
     private LotteryCanvasListener getLotteryCanvasListener() {
         return new LotteryCanvasListener() {
             @Override
-			public void stoppedOnLotteryWinner() {
-                lotteryStoppedOnWinner();
+			public void gotWinner(Participant winner) {
+                lotteryStoppedOnWinner(winner);
             }
-        };
+		};
     }
 
     private MouseListener getStartButtonListener() {

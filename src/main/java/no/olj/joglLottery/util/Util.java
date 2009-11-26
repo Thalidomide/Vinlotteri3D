@@ -1,11 +1,13 @@
 package no.olj.joglLottery.util;
 
-import no.olj.joglLottery.primitives.LotteryColor;
-import no.olj.joglLottery.primitives.Rotation;
-import no.olj.joglLottery.primitives.Point3D;
-
-import javax.media.opengl.GL;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import javax.media.opengl.GL;
+
+import no.olj.joglLottery.primitives.LotteryColor;
+import no.olj.joglLottery.primitives.Point3D;
+import no.olj.joglLottery.primitives.Rotation;
 
 /**
  * <h1></h1>
@@ -19,7 +21,12 @@ public class Util {
         gl.glColor3d(color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    public static double getRandom(double min, double max) {
+    public static int getRandom(int min, int max) {
+        int interval = max - min;
+        return (int) Math.round((Math.random() * interval + min));
+    }
+
+	public static double getRandom(double min, double max) {
         double interval = max - min;
         return (Math.random() * interval + min);
     }
@@ -42,4 +49,17 @@ public class Util {
         double blue = (double)color.getBlue()/255.0;
         return new LotteryColor(red, green, blue);
     }
+
+	public static <T> List<T> randomizeList(List<T> list) {
+		List<T> listToRandomize = new ArrayList<T>(list);
+		List<T> result = new ArrayList<T>(list.size());
+
+		while (!listToRandomize.isEmpty()) {
+			int randomIndex = getRandom(0, listToRandomize.size() - 1);
+			result.add(listToRandomize.get(randomIndex));
+			listToRandomize.remove(randomIndex);
+		}
+
+		return result;
+	}
 }
