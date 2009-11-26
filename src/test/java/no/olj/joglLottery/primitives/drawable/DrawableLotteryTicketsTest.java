@@ -7,7 +7,6 @@ import java.util.List;
 import junit.framework.TestCase;
 import no.olj.joglLottery.lottery.Participant;
 import no.olj.joglLottery.primitives.Point3D;
-import no.olj.joglLottery.primitives.drawable.DrawableLotteryTickets;
 
 /**
  * @author Olav Jensen
@@ -25,5 +24,13 @@ public class DrawableLotteryTicketsTest extends TestCase {
 		assertEquals(participants.get(0), tickets.getParticipant(100));
 		assertEquals(participants.get(1), tickets.getParticipant(200));
 		assertEquals(participants.get(2), tickets.getParticipant(300));
+
+		participants = new ArrayList<Participant>();
+		participants.add(new Participant("1", 5, Color.BLACK));
+		participants.add(new Participant("2", 5, Color.BLACK));
+		tickets = new DrawableLotteryTickets(participants, new Point3D(0, 0, 0), 1, 0);
+
+		assertEquals(participants.get(0), tickets.getParticipant(0));
+		assertEquals(participants.get(1), tickets.getParticipant(180));
 	}
 }

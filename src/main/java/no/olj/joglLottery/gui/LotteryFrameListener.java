@@ -18,13 +18,6 @@ public interface LotteryFrameListener {
     void stoppedOnWinner(Participant winner);
 
     /**
-     * Get the next {@link Participant} who should win.
-     *
-     * @return the next winner {@link Participant}.
-     */
-    Participant getNextWinner();
-
-    /**
      * Called when the lottery has ended.
      */
     void lotteryEnded();

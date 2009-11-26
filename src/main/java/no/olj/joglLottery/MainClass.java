@@ -1,13 +1,13 @@
 package no.olj.joglLottery;
 
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
 import no.olj.joglLottery.gui.LotteryFrame;
 import no.olj.joglLottery.gui.LotteryFrameListener;
 import no.olj.joglLottery.lottery.Participant;
 import no.olj.joglLottery.util.Util;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.awt.Color;
 
 /**
  * <h1></h1>
@@ -26,7 +26,6 @@ public class MainClass {
             , "Frode"
     };
         int[] tickets = new int[]{20, 10, 15, 3, 11, 8};
-//    int[] tickets = new int[]{3, 3, 3, 3};
     Color[] colors = new Color[]{
             new Color(0, 0, 200),
             new Color(200, 0, 0),
@@ -38,22 +37,19 @@ public class MainClass {
 
     public void start() {
         List<Participant> participants = getParticipants();
-        LotteryFrame mainFrame = new LotteryFrame(getListener(participants), participants, 10);
+        LotteryFrame mainFrame = new LotteryFrame(getListener(), participants, 10);
         mainFrame.setVisible(true);
     }
 
-    private LotteryFrameListener getListener(final List<Participant> participants) {
+    private LotteryFrameListener getListener() {
         return new LotteryFrameListener() {
-            public void stoppedOnWinner(Participant winner) {
+            @Override
+			public void stoppedOnWinner(Participant winner) {
                 winner.decreaseTickets();
             }
 
-            public Participant getNextWinner() {
-                return participants.get((int) (Math.random() * participants.size()));
-            }
-
-            public void lotteryEnded() {
-                //TODO Implement
+            @Override
+			public void lotteryEnded() {
             }
         };
     }
@@ -77,13 +73,13 @@ public class MainClass {
     }
 
     private Color getRandomColor() {
-        int red = (int) Util.getRandom(10, 200);
-        int green = (int) Util.getRandom(10, 200);
-        int blue = (int) Util.getRandom(10, 200);
+        int red = Util.getRandom(10, 200);
+        int green = Util.getRandom(10, 200);
+        int blue = Util.getRandom(10, 200);
         return new Color(red, green, blue);
     }
 
     private int getRandomTicket() {
-        return (int) (Math.random() * 20 + 1);
+        return Util.getRandom (1, 21);
     }
 }

@@ -62,7 +62,7 @@ public class DrawableLotteryTickets implements Drawable {
 			double startAngle = participantFirstTicket / (double) totalTickets * 360;
 			double endAngle = participantLastTicket / (double) totalTickets * 360;
 
-			if (angle >= startAngle && angle <= endAngle) {
+			if (angle >= startAngle && angle < endAngle) {
 				result = participant;
 				break;
 			}
