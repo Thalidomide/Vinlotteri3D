@@ -23,8 +23,6 @@ public class DrawableLotteryTickets implements Drawable {
     private int totalTickets;
     private Point3D centre;
 
-//    private List<Drawable> drawableTickets;
-
     private final double radius;
 	private final double angleOffset;
 
@@ -95,13 +93,11 @@ public class DrawableLotteryTickets implements Drawable {
         double startAngle = angleOffset;
         for (Participant participant : participants) {
             float angle = (float) participant.getTickets() / (float) totalTickets * 360;
-//            float angle = 45;
 
             LotteryColor color = Util.convertColor(participant.getColor());
             DrawableArc arc = new DrawableArc(centre, startAngle, angle, radius, color);
 			participantMap.put(participant, arc);
             startAngle += angle;
-//			break;
         }
     }
 

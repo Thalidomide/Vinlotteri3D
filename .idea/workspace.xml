@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager" verified="true">
     <list default="true" id="d8ade71e-1890-4f2a-bcb3-4147fb09e72f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTicketsTest.java" afterPath="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTicketsTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTickets.java" afterPath="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTickets.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTicketsTest.java" afterPath="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTicketsTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/gui/LotteryFrameListener.java" afterPath="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/gui/LotteryFrameListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/lottery/DrawControllerTest.java" afterPath="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/lottery/DrawControllerTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/MainClass.java" afterPath="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/MainClass.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/util/UtilTest.java" afterPath="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/util/UtilTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/lottery/DrawController.java" afterPath="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/lottery/DrawController.java" />
     </list>
     <ignored path="Vinlotteri3D.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,30 +89,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DrawControllerTest.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DrawControllerTest.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/no/olj/joglLottery/lottery/DrawControllerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="13" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0">
+            <state line="16" column="27" selection-start="380" selection-end="380" vertical-scroll-proportion="0.36260623">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DrawableLotteryTicketsTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTicketsTest.java">
+      <file leaf-file-name="DrawController.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/lottery/DrawController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="32" selection-start="846" selection-end="846" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="44" column="24" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DrawableLotteryTickets.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DrawableLotteryTickets.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTickets.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="30" selection-start="725" selection-end="725" vertical-scroll-proportion="0.2842304">
+            <state line="98" column="31" selection-start="2923" selection-end="2923" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -164,19 +165,19 @@
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/lottery/DrawControllerListener.java" />
         <option value="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/lottery/DrawableLotteryTicketsTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/gui/LotteryCanvasListener.java" />
-        <option value="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/lottery/DrawControllerTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/LotteryColor.java" />
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/drawable/DrawableArc.java" />
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/util/Util.java" />
-        <option value="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/util/UtilTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/lottery/DrawController.java" />
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/gui/LotteryPainter.java" />
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/gui/LotteryFrame.java" />
         <option value="$PROJECT_DIR$/doc/readme.txt" />
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/gui/LotteryFrameListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/MainClass.java" />
-        <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTickets.java" />
         <option value="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTicketsTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTickets.java" />
+        <option value="$PROJECT_DIR$/src/main/java/no/olj/joglLottery/lottery/DrawController.java" />
+        <option value="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/lottery/DrawControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/no/olj/joglLottery/util/UtilTest.java" />
       </list>
     </option>
   </component>
@@ -402,7 +403,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
-  <component name="RunManager" selected="Application.MainClass">
+  <component name="RunManager" selected="JUnit.All in Vinlotteri3D">
     <configuration default="false" name="UtilTest.testGetRandomInt" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false">
         <pattern>
@@ -474,6 +475,57 @@
       <option name="MAIN_CLASS_NAME" value="no.olj.joglLottery.util.UtilTest" />
       <option name="METHOD_NAME" value="testRandomizeList" />
       <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="DrawControllerTest.testDraw" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false">
+        <pattern>
+          <option name="PATTERN" value="no.olj.joglLottery.lottery.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <extension name="snapshooter" />
+      <module name="Vinlotteri3D" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="no.olj.joglLottery.lottery" />
+      <option name="MAIN_CLASS_NAME" value="no.olj.joglLottery.lottery.DrawControllerTest" />
+      <option name="METHOD_NAME" value="testDraw" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All in Vinlotteri3D" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" />
+      <extension name="snapshooter" />
+      <module name="Vinlotteri3D" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -643,11 +695,13 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Application.MainClass" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.UtilTest.testGetRandomInt" />
       <item index="2" class="java.lang.String" itemvalue="JUnit.DrawableLotteryTicketsTest.testGetParticipantFromAngle" />
       <item index="3" class="java.lang.String" itemvalue="JUnit.UtilTest.testRandomizeList" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.DrawControllerTest.testDraw" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.All in Vinlotteri3D" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -737,16 +791,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/no/olj/joglLottery/util/UtilTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="9" selection-start="536" selection-end="536" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doc/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/drawable/DrawableArc.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="45" column="21" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0" />
@@ -792,38 +836,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/no/olj/joglLottery/lottery/DrawControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/util/Util.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="69" selection-start="1799" selection-end="1799" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/lottery/DrawController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="31" selection-start="1435" selection-end="1435" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/gui/LotteryPainter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="267" column="83" selection-start="8908" selection-end="8908" vertical-scroll-proportion="0.0">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTicketsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="32" selection-start="846" selection-end="846" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -834,7 +850,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTickets.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="30" selection-start="725" selection-end="725" vertical-scroll-proportion="0.2842304">
+        <state line="98" column="31" selection-start="2923" selection-end="2923" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/progs/java/jdk6u16/src.zip!/java/lang/Math.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/util/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="24" selection-start="796" selection-end="796" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/no/olj/joglLottery/lottery/DrawController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="24" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/no/olj/joglLottery/util/UtilTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/no/olj/joglLottery/primitives/drawable/DrawableLotteryTicketsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="13" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/no/olj/joglLottery/lottery/DrawControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="27" selection-start="380" selection-end="380" vertical-scroll-proportion="0.36260623">
           <folding />
         </state>
       </provider>

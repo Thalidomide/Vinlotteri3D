@@ -30,7 +30,6 @@ public class UtilTest extends TestCase {
 	private void assertRandomIntBetween(int min, int max) {
 		for (int i = 0; i < 20; i++) {
 			int result = Util.getRandom(min, max);
-			System.out.println("Min,max = " + min + "," + max + ", result: " + result);
 			assertTrue(result >= min);
 			assertTrue(result <= max);
 		}

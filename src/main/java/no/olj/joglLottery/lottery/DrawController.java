@@ -12,12 +12,12 @@ public class DrawController {
 
 	private boolean drawing;
 
-	private final static double spinFadeDown = 0.006;		// verdien farten minker med
-	private final static double initialSpinSpeed = 4;		// hastigheten under trekning
-	private final static int minFadeDownRounds = 1;			// Minimum runder før bremsing starter
-	private final static int maxFadeDownRounds = 3;			// Maks runder før bremsing
-	private int fadeDownRound;								// Hvilken runde man starter med å bremse
-	private double fadeDownAngle;							// Ved hvilken vinkel bremsingen starter
+	private double spinFadeDown = 0.006;		// verdien farten minker med
+	private double initialSpinSpeed = 4;		// hastigheten under trekning
+	private int minFadeDownRounds = 1;			// Minimum runder før bremsing starter
+	private int maxFadeDownRounds = 3;			// Maks runder før bremsing
+	private int fadeDownRound;					// Hvilken runde man starter med å bremse
+	private double fadeDownAngle;				// Ved hvilken vinkel bremsingen starter
 
 	private boolean fadingDown;
 	private double currentSpinSpeed = 0;
@@ -42,7 +42,7 @@ public class DrawController {
 		currentSpinSpeed = initialSpinSpeed;
 		rounds = 0;
 		fadeDownRound = Util.getRandom(minFadeDownRounds, maxFadeDownRounds);
-		fadeDownAngle = Util.getRandom(0, 360);
+		fadeDownAngle = Util.getRandom(0d, 360d);
 		fadingDown = false;
 	}
 
@@ -75,7 +75,7 @@ public class DrawController {
 	 */
 	private boolean checkFadeDown() {
 		if (!fadingDown) {
-			if (rounds == fadeDownRound && angle >= fadeDownAngle) {
+			if ((rounds == fadeDownRound && angle >= fadeDownAngle) || rounds > fadeDownRound) {
 				fadingDown = true;
 			}
 		}
@@ -96,5 +96,21 @@ public class DrawController {
 
 	public boolean isDrawing() {
 		return drawing;
+	}
+
+	void setSpinFadeDown(double spinFadeDown) {
+		this.spinFadeDown = spinFadeDown;
+	}
+
+	void setInitialSpinSpeed(double initialSpinSpeed) {
+		this.initialSpinSpeed = initialSpinSpeed;
+	}
+
+	void setMinFadeDownRounds(int minFadeDownRounds) {
+		this.minFadeDownRounds = minFadeDownRounds;
+	}
+
+	void setMaxFadeDownRounds(int maxFadeDownRounds) {
+		this.maxFadeDownRounds = maxFadeDownRounds;
 	}
 }
