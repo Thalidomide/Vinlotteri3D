@@ -42,7 +42,7 @@ public class DrawController {
 		currentSpinSpeed = initialSpinSpeed;
 		rounds = 0;
 		fadeDownRound = Util.getRandom(minFadeDownRounds, maxFadeDownRounds);
-		fadeDownAngle = Util.getRandom(0d, 360d);
+		fadeDownAngle = Util.getRandomAngle();
 		fadingDown = false;
 	}
 
@@ -76,6 +76,12 @@ public class DrawController {
 	private boolean checkFadeDown() {
 		if (!fadingDown) {
 			if ((rounds == fadeDownRound && angle >= fadeDownAngle) || rounds > fadeDownRound) {
+				/* Nådd punktet hvor nedbremsing skal starte, justere vinkelen tilbake til vinkelen for bremsingen */
+				if (angle < fadeDownAngle) {
+					/* Nedbremsingsvinkelen ligger i forrige runde, justere ned antall runder */
+					rounds--;
+				}
+				angle = fadeDownAngle;
 				fadingDown = true;
 			}
 		}

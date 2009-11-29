@@ -1,7 +1,9 @@
 package no.olj.joglLottery.util;
 
 import java.awt.Color;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.media.opengl.GL;
 
@@ -23,15 +25,21 @@ public class Util {
 
     public static int getRandom(int min, int max) {
         int interval = max - min;
-        return (int) Math.round((Math.random() * interval + min));
+		if (interval == 0) {
+			return min;
+		}
+		return getSecureRandom().nextInt(interval) + min;
     }
 
-	public static double getRandom(double min, double max) {
-        double interval = max - min;
-        return (Math.random() * interval + min);
+	public static double getRandomAngle() {
+		return getSecureRandom().nextDouble() * 360.0;
     }
 
-    public static double getTransformedAngle(double angle, double rotate) {
+	private static SecureRandom getSecureRandom() {
+		return new SecureRandom(new Date().toString().getBytes());
+	}
+
+	public static double getTransformedAngle(double angle, double rotate) {
         return (angle + rotate) % 360;
     }
 

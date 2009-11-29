@@ -12,8 +12,8 @@ public class LotteryColor {
 
 	private boolean runAnimation;
 	private boolean animating;
-	private double animateMax = 1.3;
-	private double animateMin = 0.8;
+	private double animateMax = 1.5;
+	private double animateMin = 0.9;
 	private double animateStep = 0.015;
 	private double animatePointer = 1;
 	private boolean animateUp;
